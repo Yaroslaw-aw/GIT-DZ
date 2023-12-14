@@ -1,5 +1,4 @@
-﻿using Animals.AnimalTypesEnum;
-using Animals.Model;
+﻿using Animals.Model;
 using Animals.Presenter;
 using Animals.View;
 
@@ -10,7 +9,7 @@ namespace Animals
         static void Main(string[] args)
         {
             // Pets
-            Animal dog1 = new Dog("Fido", new DateTime(2020, 01, 01), new string[] { "Sit", "Stay", "Fetch" } );
+            Animal dog1 = new Dog("Fido", new DateTime(2020, 01, 01), new string[] { "Sit,.#", "Stay;", "Fetch" } );
             Animal cat1 = new Cat("Whiskers", new DateTime(2019, 05, 15), new string[] { "Sit", "Pounce" } );
             Animal hamster1 = new Hamster("Hammy", new DateTime(2021, 03, 10), new string[] { "Roll", "Hide" } );
             Animal dog2 = new Dog("Buddy", new DateTime(2018, 12, 10), new string[] { "Sit", "Paw", "Bark" } );
@@ -30,6 +29,7 @@ namespace Animals
             Animal camel3 = new Camel("Sahara", new DateTime(2015, 08, 14), new string[] { "Walk", "Run" } );
 
             AnimalRegistry registry = new AnimalRegistry();
+
             registry.AddAnimal(dog1);
             registry.AddAnimal(cat1);
             registry.AddAnimal(hamster1);
@@ -46,11 +46,11 @@ namespace Animals
             registry.AddAnimal(camel2);
             registry.AddAnimal(donkey2);
             registry.AddAnimal(horse3);
-            registry.AddAnimal(camel3);
+            registry.AddAnimal(camel3);            
 
             ViewAnimals view = new ViewAnimals(registry);
-            view.Start();              
-
+            view.Start();
+            
         }
     }
 }

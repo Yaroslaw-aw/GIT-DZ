@@ -1,6 +1,8 @@
 ﻿using Animals.AnimalTypesEnum;
 using Animals.Model;
 using Animals.Presenter;
+using System.Text;
+using static Animals.Program;
 
 namespace Animals.View
 {
@@ -36,9 +38,9 @@ namespace Animals.View
                 Console.Clear();
                 Console.WriteLine(
                    $"Реестр животных\n" +
-                    new string('-', 100) + "\n" +
+                    new string('-', Console.WindowWidth) + "\n" +
                     "Выберите пункт меню\n" +
-                    new string('-', 100) + "\n" +
+                    new string('-', Console.WindowWidth) + "\n" +
                     " 1 - Добавить новое животное\n" +
                     " 2 - Показать список команд животного\n" +
                     " 3 - Обучить животное новой команде\n" +
@@ -58,6 +60,13 @@ namespace Animals.View
                     continue;
                 }
 
+                if (mainNumber < 0 || mainNumber > 8)
+                {
+                    Console.WriteLine("Такого пункта нет в меню. Нажмите клавишу и повторите ввод");
+                    Console.ReadKey();
+                    continue;
+                }
+
                 switch (mainNumber)
                 {
                     case 1: // Добавить новое животное в реестр
@@ -67,8 +76,8 @@ namespace Animals.View
                             while (!isAddAnimal)
                             {
                                 Console.Clear();
-                                Console.WriteLine("Добавить животное -> Выбор типа животного\n" + new string('-', 100));
-                                Console.WriteLine("Для возврата в предыдущее меню нажмите 0\n" + new string('-', 100));
+                                Console.WriteLine("Добавить животное -> Выбор типа животного\n" + new string('-', Console.WindowWidth));
+                                Console.WriteLine("Для возврата в предыдущее меню нажмите 0\n" + new string('-', Console.WindowWidth));
                                 Console.WriteLine("Кого вы хотите добавить?\n");
 
                                 string[]? animals = new string[]
@@ -101,7 +110,7 @@ namespace Animals.View
                                 AnimalType type = (AnimalType)(typeNum - 1);
 
                                 AddAnimalToRegistry(type);
-                                isAddAnimal = true;
+                                //isAddAnimal = true;
                             }
 
                             break;
@@ -126,8 +135,13 @@ namespace Animals.View
 
                                     if (listToShow.animals.Count > 0)
                                     {
-                                        Console.WriteLine("Показать список команд -> Выберете список с животными -> Список животных\n");
-                                        registry.ShowAnimals(listToShow.numberOfList);
+                                        Console.WriteLine("Показать список команд -> Выберете список с животными -> Список животных");
+                                        Console.WriteLine(new string('-', Console.WindowWidth));
+                                        Console.WriteLine("Введите 0 для возврата в предыдущее меню");
+                                        Console.WriteLine(new string('-', Console.WindowWidth));
+
+                                        ShowTable(listToShow.animals);
+                                        //registry.ShowAnimals(listToShow.numberOfList);
 
                                         int idToShow = InputIntValue("Введите id животного, команды которого надо посмотреть");
 
@@ -139,7 +153,7 @@ namespace Animals.View
 
                                         Console.WriteLine();
 
-                                        if (idToShow < 0)
+                                        if (idToShow < 0 )
                                         {
                                             Console.WriteLine("Такого id нет в списке. Нажмите клавишу и попробуйте ещё раз");
                                             Console.ReadKey();
@@ -153,18 +167,18 @@ namespace Animals.View
                                                 Console.WriteLine(animal.ShowCommands());
                                                 Console.WriteLine("\nНажмите клавишу для продолжения");
                                                 Console.ReadKey();
-                                                selected = true;
-                                                shown = true;
+                                                //selected = true;
+                                                //shown = true;
                                                 break;
                                             }
                                         }
 
-                                        if (shown == false)
-                                        {
-                                            Console.WriteLine("Введен неверный id. Нажмите кнопку и повторите ввод.");
-                                            Console.ReadKey();
-                                            continue;
-                                        }
+                                        //if (shown == false)
+                                        //{
+                                        //    Console.WriteLine("Введен неверный id. Нажмите кнопку и повторите ввод.");
+                                        //    Console.ReadKey();
+                                        //    continue;
+                                        //}
 
                                     }
                                     else
@@ -200,8 +214,13 @@ namespace Animals.View
                                     if (listToShow.animals.Count > 0)
                                     {
                                         Console.Clear();
-                                        Console.WriteLine("Обучить новой команде -> Выбрать список с животными -> Выбрать животное для обучения\n");
-                                        registry.ShowAnimals(listToShow.numberOfList);
+                                        Console.WriteLine("Обучить новой команде -> Выбрать список с животными -> Выбрать животное для обучения");
+                                        Console.WriteLine(new string('-', Console.WindowWidth));
+                                        Console.WriteLine("Введите 0 для возврата в предыдущее меню");
+                                        Console.WriteLine(new string('-', Console.WindowWidth));
+
+                                        ShowTable(listToShow.animals);
+                                        // registry.ShowAnimals(listToShow.numberOfList);
 
                                         int idAnimalToTrain = InputIntValue("Введите id животного, которого надо обучить или 0 для возврата");
 
@@ -226,17 +245,17 @@ namespace Animals.View
                                                 animal.AddCommand(commands);
                                                 Console.WriteLine("Животное обучено. Нажмите клавишу для продолжения");
                                                 Console.ReadKey();
-                                                shown = true;
-                                                trained = true;
+                                                //shown = true;
+                                                //trained = true;
                                                 break;
                                             }
                                         }
-                                        if (trained == false)
-                                        {
-                                            Console.WriteLine("Введен неверный id. Нажмите кнопку и повторите ввод.");
-                                            Console.ReadKey();
-                                            continue;
-                                        }
+                                        //if (trained == false)
+                                        //{
+                                        //    Console.WriteLine("Введен неверный id. Нажмите кнопку и повторите ввод.");
+                                        //    Console.ReadKey();
+                                        //    continue;
+                                        //}
                                     }
                                     else
                                     {
@@ -265,10 +284,12 @@ namespace Animals.View
 
                                 Console.Clear();
 
-                                foreach (var animal in sortedAnimalsByBirhDate)
-                                {
-                                    Console.WriteLine(animal);
-                                }
+                                ShowTable(sortedAnimalsByBirhDate);
+
+                                //foreach (var animal in sortedAnimalsByBirhDate)
+                                //{
+                                //    Console.WriteLine(animal);
+                                //}
                                 Console.WriteLine("\nНажмите клавишу для продолжения");
                                 Console.ReadKey();
                             }
@@ -306,7 +327,9 @@ namespace Animals.View
                         {
                             Console.Clear();
 
-                            registry.ShowAnimals(1);
+                            ShowTable(registry.animals);
+
+                            // registry.ShowAnimals(1);
 
                             Console.WriteLine("Нажмите клавишу, чтобы продолжить");
                             Console.ReadKey();
@@ -317,7 +340,9 @@ namespace Animals.View
                         {
                             Console.Clear(); ;
 
-                            registry.ShowAnimals(2);
+                            ShowTable(registry.pets);
+
+                            // registry.ShowAnimals(2);
 
                             Console.WriteLine("Нажмите клавишу, чтобы продолжить");
                             Console.ReadKey();
@@ -328,7 +353,9 @@ namespace Animals.View
                         {
                             Console.Clear();
 
-                            registry.ShowAnimals(3);
+                            ShowTable(registry.packAnimals);
+
+                            // registry.ShowAnimals(3);
 
                             Console.WriteLine("Нажмите клавишу, чтобы продолжить");
                             Console.ReadKey();
@@ -347,8 +374,8 @@ namespace Animals.View
         private (int numberOfList, List<Animal> animals) NumberOfList(string path)
         {
             Console.Clear();
-            Console.WriteLine(path + new string('-', 100));
-            Console.WriteLine("Для возврата в предыдущее меню нажмите 0\n" + new string('-', 100));
+            Console.WriteLine(path + new string('-', Console.WindowWidth));
+            Console.WriteLine("Для возврата в предыдущее меню нажмите 0\n" + new string('-', Console.WindowWidth));
             Console.WriteLine("Выберете список животных\n");
 
             foreach (var listOfAnimals in this.listsOfAnimals)
@@ -454,42 +481,90 @@ namespace Animals.View
 
             int[] date = new int[3];
 
-            int i = 0;
-
-            foreach (string str in birth)
+            for (int i = 0; i < birth.Length; i++)
             {
                 date[i] = 0;
-                bool correctInput = int.TryParse(str, out date[i]);
+                bool correctInput = int.TryParse(birth[i], out date[i]);
                 if (!correctInput) break;
-                ++i;
             }
 
             try
             {
-                DateTime time = new DateTime(date[0], date[1], date[2]);
+                DateTime birthDate = new DateTime(date[0], date[1], date[2]);
 
-                return time;
+                return birthDate;
             }
             catch (InvalidDataException e)
             {
                 Console.WriteLine("Некорректная дата, нажмите любую клавишу и повторите ввод ещё раз");
                 Console.ReadKey();
+
+                e.Data.Add(e.Message, DateTime.Now);                
+
+                try
+                {
+                    string log = $"{e.GetObjectData}\n";
+                    using (FileStream fstream = new FileStream(@".\logs.txt", FileMode.Append))
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(log);
+                        fstream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+                catch { }
+
                 return BirthDate();
+
                 throw new InvalidDataException(e.Message);
+                
             }
             catch (ArgumentOutOfRangeException e)
             {
                 Console.WriteLine("Некорректная дата, нажмите любую клавишу и повторите ввод ещё раз");
                 Console.ReadKey();
+
+                e.Data.Add(e.Message, DateTime.Now);
+
+                try
+                {
+                    string log = $"{e.Message}\n";
+                    using (FileStream fstream = new FileStream(@".\logs.txt", FileMode.Append))
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(log);
+                        fstream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+                catch { }
+
                 return BirthDate();
-                throw new ArgumentOutOfRangeException(e.Message);
+
+                throw new Exception(e.Message);
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine("Некорректная дата, нажмите любую клавишу и повторите ввод ещё раз");
                 Console.ReadKey();
+
+                e.Data.Add(e.Message, DateTime.Now);
+
+                try
+                {
+                    string log = $"{e.Data}";
+                    using (FileStream fstream = new FileStream(@".\logs.txt", FileMode.Append))
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(log);
+                        fstream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+                catch { }
+
                 return BirthDate();
-                throw new Exception(e.Message);
+
+                throw new ArgumentOutOfRangeException(e.Message);
+            }
+            finally
+            {
+                
             }
         }
 
@@ -506,7 +581,7 @@ namespace Animals.View
 
             if (!isCorrectInput)
             {
-                return InputIntValue("Некорректный ввод. Попробуйте ещё раз");
+                return -1; 
             }
             else return value;
         }
@@ -533,8 +608,27 @@ namespace Animals.View
             Console.WriteLine(message);
 
             return Console.ReadLine()
-                .Split(' ', '-', ',', ';', '/', '\\', '"', '\'', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=', '+', '|', '.', '<', '>')
+                .Split(' ', '-', ',', ';', '/', '\\', '"', '\'', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '=', '+', '|', '.', '<', '>', '?')
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Выводит список в табличном виде
+        /// </summary>
+        /// <param name="animals"></param>
+        public void ShowTable(List<Animal> animals)
+        {
+            Console.WriteLine('+' + new string('-', 4) + '+' + new string('-', 10) + '+' + new string('-', 9) + '+' + new string('-', 15) + '+' + new string('-', 26) + '+' + new string('-', 16) + '+');
+            Console.WriteLine($"|{"id", 3} | {"Имя", 8} | {"Тип", 7} | {"Дата рождения", 13} | {"Команды", 24} | {"Глобальны  тип"} |");
+            
+            Console.WriteLine('+' + new string('-', 4) + '+' + new string('-', 10) + '+' + new string('-', 9) + '+' + new string('-', 15) + '+' + new string('-', 26) + '+' + new string('-', 16) + '+');
+
+            foreach (var animal in animals)
+            {
+                Console.WriteLine($"|{animal.FinalId, 3} | {animal.Name, 8} | {animal.Type, 7} | {animal.BirthDate.ToString("dd.MM.yyyy"), 13} | {animal.ShowCommands(), 24} | {animal.GlobalType, 14} |");
+            }
+            Console.WriteLine(new string('-', 87));
+            Console.WriteLine();
         }
     }
 }
